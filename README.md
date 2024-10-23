@@ -4,7 +4,7 @@ speedlearn-cli is a command-line tool that automates the process of downloading 
 
 ## Features
 
-- Download YouTube videos and convert them to MP3 format
+- Download MP4 videos and convert them to MP3 format
 - Transcribe audio files using the Groq API (Whisper model)
 - Efficient file handling with caching to avoid redundant operations
 
