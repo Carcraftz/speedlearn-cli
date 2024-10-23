@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -66,6 +67,7 @@ func main() {
 	// Check if transcription file exists
 	if _, err := os.Stat(txtPath); os.IsNotExist(err) {
 		fmt.Printf("Transcribing audio: %s\n", mp3Path)
+
 		// Transcribe the audio
 		transcription, err := transcribeAudio(mp3Path, apiKey)
 		if err != nil {
@@ -83,6 +85,72 @@ func main() {
 	} else {
 		fmt.Printf("Transcription file already exists: %s\n", txtPath)
 	}
+	// Define paths for minutia and notes
+	minutiaPath := filepath.Join(outputDir, "minutia.md")
+	notesPath := filepath.Join(outputDir, "notes.md")
 
-	fmt.Printf("Processing complete:\nAudio: %s\nTranscription: %s\n", mp3Path, txtPath)
+	// Define note types and prompts
+	type NoteConfig struct {
+		Type   string
+		Path   string
+		Prompt string
+	}
+
+	noteConfigs := []NoteConfig{
+		{
+			Type:   "Minutia",
+			Path:   minutiaPath,
+			Prompt: "Give me any minutia or details that would be useful for an exam IN MARKDOWN",
+		},
+		{
+			Type:   "Detailed Notes",
+			Path:   notesPath,
+			Prompt: "Create very detailed notes from this lecture in markdown format",
+		},
+	}
+
+	// Get Anthropic API key from environment
+	anthropicAPIKey := os.Getenv("ANTHROPIC_API_KEY")
+	if anthropicAPIKey == "" {
+		fmt.Println("ANTHROPIC_API_KEY environment variable is not set")
+		os.Exit(1)
+	}
+
+	// Wrapper function to create notes
+	createNotes := func(configs []NoteConfig, transcription string) error {
+		for _, config := range configs {
+			if _, err := os.Stat(config.Path); os.IsNotExist(err) {
+				fmt.Printf("Creating %s from transcription: %s\n", config.Type, config.Path)
+
+				notes, err := createNotesWithClaude(transcription, config.Prompt, anthropicAPIKey)
+				if err != nil {
+					return fmt.Errorf("error creating %s with Claude API: %v", config.Type, err)
+				}
+
+				err = ioutil.WriteFile(config.Path, []byte(notes), 0644)
+				if err != nil {
+					return fmt.Errorf("error saving %s: %v", config.Type, err)
+				}
+			} else {
+				fmt.Printf("%s file already exists: %s\n", config.Type, config.Path)
+			}
+		}
+		return nil
+	}
+
+	// Read transcription
+	transcription, err := ioutil.ReadFile(txtPath)
+	if err != nil {
+		fmt.Printf("Error reading transcription file: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Create notes using the wrapper function
+	err = createNotes(noteConfigs, string(transcription))
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("Processing complete:\nAudio: %s\nTranscription: %s\nMinutia: %s\n", mp3Path, txtPath, minutiaPath)
 }

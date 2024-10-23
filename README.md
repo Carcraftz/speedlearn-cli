@@ -1,6 +1,6 @@
 # speedlearn-cli
 
-speedlearn-cli is a command-line tool that automates the process of downloading MP4 videos, converting them to MP3, and transcribing the audio content. This project was entirely built with Claude 3.5 Sonnet with Cursor in under an hour. Not a single line of code was written by a human.
+speedlearn-cli is a command-line tool that automates the process of downloading MP4 videos, converting them to MP3, transcribing the audio content, and generating detailed notes. This project was entirely built with Claude 3.5 Sonnet with Cursor in under an hour. Not a single line of code was written by a human.
 
 Resources
 
@@ -9,6 +9,7 @@ Resources
 
 - Download MP4 videos and convert them to MP3 format
 - Transcribe audio files using the Groq API (Whisper model)
+- Generate detailed notes and minutia using the Anthropic Claude API
 - Efficient file handling with caching to avoid redundant operations
 
 ## Prerequisites
@@ -16,6 +17,7 @@ Resources
 - Go 1.x or higher
 - FFmpeg (for video to audio conversion)
 - Groq API key
+- Anthropic API key
 
 ## Installation
 
@@ -56,6 +58,7 @@ The tool will:
 - `main.go`: Main application logic and CLI interface
 - `convert.go`: Functions for video download and conversion to MP3
 - `transcribe.go`: Functions for audio transcription using the Groq API
+- `notes.go`: Functions for generating notes using the Anthropic Claude API
 - `Makefile`: Build and management commands
 
 ## Development
