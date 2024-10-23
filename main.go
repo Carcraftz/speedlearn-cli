@@ -10,10 +10,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type TranscriptionResponse struct {
-	Text string `json:"text"`
-}
-
 func main() {
 	// Load .env file
 	err := godotenv.Load()
@@ -100,12 +96,12 @@ func main() {
 		{
 			Type:   "Minutia",
 			Path:   minutiaPath,
-			Prompt: "Give me any minutia or details that would be useful for an exam IN MARKDOWN",
+			Prompt: "Give me any minutia or details that would be useful for an exam IN MARKDOWN. Be concise, don't explain things that would be known to someone that already understands the topic, just specific details. EG: OpenMP parallel for only parallelizes the outermost loop, not the inner loops.",
 		},
 		{
 			Type:   "Detailed Notes",
 			Path:   notesPath,
-			Prompt: "Create very detailed notes from this lecture in markdown format",
+			Prompt: "Create very detailed notes from this lecture in markdown format. Include all important details, equations, and concepts. Add examples where appropriate. Please use markdown tables, code blocks, and other formatting where appropriate. Bold any important terms. Please include block quotes from the lecture.",
 		},
 	}
 

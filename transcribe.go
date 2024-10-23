@@ -12,6 +12,10 @@ import (
 	"strings"
 )
 
+type TranscriptionResponse struct {
+	Text string `json:"text"`
+}
+
 func transcribeAudio(audioPath, apiKey string) (string, error) {
 	// Open the audio file
 	file, err := os.Open(audioPath)

@@ -8,8 +8,8 @@ Resources
 ## Features
 
 - Download MP4 videos and convert them to MP3 format
-- Transcribe audio files using the Groq API (Whisper model)
-- Generate detailed notes and minutia using the Anthropic Claude API
+- Transcribe audio files using the Groq API (OpenAI Whisper Large-v3 Turbo model)
+- Generate detailed notes and minutia using the Anthropic Claude API (NEW Claude 3.5 Sonnet model)
 - Efficient file handling with caching to avoid redundant operations
 
 ## Prerequisites
