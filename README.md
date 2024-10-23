@@ -1,6 +1,9 @@
 # speedlearn-cli
 
-speedlearn-cli is a command-line tool that automates the process of downloading MP4 videos, converting them to MP3, and transcribing the audio content. This project was entirely built with Claude 3.5 Sonnet in under an hour.
+speedlearn-cli is a command-line tool that automates the process of downloading MP4 videos, converting them to MP3, and transcribing the audio content. This project was entirely built with Claude 3.5 Sonnet with Cursor in under an hour. Not a single line of code was written by a human.
+
+Resources
+
 
 ## Features
 
